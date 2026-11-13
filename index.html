@@ -63,7 +63,7 @@ img{display:block;max-width:100%}
 /* nav */
 header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:saturate(1.2) blur(10px);-webkit-backdrop-filter:saturate(1.2) blur(10px);border-bottom:1px solid transparent;transition:border-color .25s}
 header.nav.scrolled{border-bottom-color:var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
 .logo{white-space:nowrap;font-family:var(--f-serif);font-size:21px;line-height:1;text-decoration:none;letter-spacing:0;display:flex;align-items:baseline;gap:10px}
 .logo small{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
 @media (max-width:560px){.logo small{display:none}}
@@ -71,30 +71,31 @@ header.nav.scrolled{border-bottom-color:var(--line)}
 .nav ul a{color:var(--ink-2)}
 .nav ul a:hover{color:var(--ink)}
 
-/* hero: name on one line left, portrait plate right, intro + facts beneath the name */
-.hero{padding-block:clamp(40px,6vw,88px) clamp(28px,3vw,40px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--s3);align-items:end}
-.hero-main{grid-column:1/10;min-width:0}
-.hero-main .eyebrow{margin:0 0 clamp(16px,2vw,28px)}
-.name{font-family:var(--f-display);font-weight:400;font-style:normal;font-size:clamp(46px,7.4vw,108px);line-height:.95;letter-spacing:-.022em;margin:0;white-space:nowrap;font-kerning:normal;font-feature-settings:"kern","liga"}
-@media (max-width:420px){.name{white-space:normal}}
-.intro{margin:clamp(22px,2.6vw,36px) 0 0;font-size:clamp(17px,1.45vw,20px);line-height:1.5;color:var(--ink);max-width:31em;text-wrap:pretty}
-.facts{display:flex;flex-wrap:wrap;gap:20px clamp(28px,4vw,56px);margin-top:clamp(24px,3vw,40px);padding-top:18px;border-top:1px solid var(--line)}
-.fact{min-width:0}
-.fact .k{display:block;margin-bottom:6px}
-.fact p{margin:0;font-size:14px;line-height:1.55;color:var(--ink-2)}
-.fact a{color:var(--ink)}
-.portrait-plate{grid-column:10/13;justify-self:end;width:100%;max-width:260px;aspect-ratio:4/5;margin:0;overflow:hidden;border-radius:2px;background:var(--paper-2);position:relative}
+/* hero: one composition on the SAME column grid as the project cards below.
+   Desktop: text spans work-columns 1–2, portrait starts exactly at column 3, both centred on a shared axis.
+   Tablet: text + portrait side by side. Mobile: small portrait above text. */
+.hero{--hero-gap:clamp(24px,2.4vw,36px);display:grid;grid-template-columns:minmax(0,1fr);row-gap:24px;align-items:center;
+  padding-block:clamp(24px,2.8vw,40px) clamp(32px,3.4vw,48px)}
+.hero-main{min-width:0}
+.hero .label{margin:0 0 clamp(14px,1.4vw,20px);font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.name{font-family:var(--f-display);font-weight:400;font-style:normal;font-size:clamp(44px,6.1vw,88px);line-height:.95;letter-spacing:-.02em;margin:0;white-space:nowrap;font-kerning:normal;font-feature-settings:"kern","liga"}
+.intro{margin:clamp(16px,1.6vw,24px) 0 0;font-size:clamp(16px,1.3vw,19px);line-height:1.5;color:var(--ink-2);text-wrap:pretty}
+.hero-meta{margin:10px 0 0;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.hero-meta i{font-style:normal;margin:0 .55em}
+.explore{display:inline-block;margin-top:clamp(20px,2.2vw,32px);font-size:13.5px;color:var(--ink);text-decoration:none;padding-bottom:3px;border-bottom:1px solid var(--line);transition:border-color .25s}
+.explore:hover{border-color:var(--ink)}
+.portrait-plate{margin:0;width:112px;aspect-ratio:4/5;overflow:hidden;border-radius:2px;background:var(--paper-2);order:-1}
 .portrait-plate img{width:100%;height:100%;object-fit:cover;object-position:center 58%;transition:transform 1.2s var(--ease)}
 .portrait-plate:hover img{transform:scale(1.03)}
-@media (max-width:900px){.hero-main{grid-column:1/-1}.portrait-plate{grid-column:1/-1;justify-self:start;max-width:200px;order:-1;margin-bottom:28px}}
-.hero-foot{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:clamp(32px,4vw,56px)}
-.explore{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-size:14px;color:var(--ink)}
-.explore .ring{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;transition:border-color .25s,background .25s,color .25s}
-.explore svg{transition:transform .4s var(--ease)}
-.explore:hover .ring{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.explore:hover svg{transform:translateY(3px)}
-@media (prefers-reduced-motion:no-preference){.explore svg{animation:nudge 2.4s var(--ease) 1.2s 2}}
-@keyframes nudge{0%,100%{transform:none}50%{transform:translateY(4px)}}
+@media (min-width:640px){
+ .hero{grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(32px,5vw,56px)}
+ .portrait-plate{order:0;width:clamp(168px,26vw,240px)}
+}
+@media (min-width:1024px){
+ .hero{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--hero-gap)}
+ .hero-main{grid-column:1/3}
+ .portrait-plate{grid-column:3;justify-self:start;width:min(100%,clamp(224px,18vw,256px))}
+}
 
 /* section head */
 section{scroll-margin-top:72px}
@@ -102,10 +103,15 @@ section{scroll-margin-top:72px}
 .sec-head h2{font-family:var(--f-serif);font-weight:400;font-size:clamp(34px,3.6vw,48px);letter-spacing:-.01em;margin:0;line-height:1}
 .sec-head h2 sup{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--muted);vertical-align:top;margin-left:6px;position:relative;top:.4em}
 .sec-head .mono{padding-bottom:4px}
+/* Selected Work follows the hero on whitespace alone: no rule, title + quiet filters on one baseline */
+.sec-head.work-head{border-top:1px solid var(--line);padding-top:clamp(24px,2.4vw,32px);align-items:baseline;margin-bottom:clamp(24px,2.4vw,32px)}
+.work-head h2{font-size:clamp(28px,2.6vw,36px)}
+@media (max-width:640px){.work-head .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:calc(-1 * var(--gut));padding-inline:var(--gut);width:calc(100% + 2 * var(--gut))}
+ .work-head .filters::-webkit-scrollbar{display:none}.work-head .filters button{white-space:nowrap;flex:none}}
 
 /* filters: editorial text tabs with sliding underline */
-.filters{display:flex;gap:4px 22px;flex-wrap:wrap;position:relative;padding-bottom:4px}
-.filters button{font:inherit;font-size:13.5px;border:0;background:none;color:var(--muted);padding:6px 0;cursor:pointer;position:relative;transition:color .2s;display:inline-flex;gap:6px;align-items:baseline}
+.filters{display:flex;gap:4px 22px;flex-wrap:wrap;position:relative}
+.filters button{font:inherit;font-size:13px;border:0;background:none;color:var(--muted);padding:6px 0;cursor:pointer;position:relative;transition:color .2s;display:inline-flex;gap:6px;align-items:baseline}
 .filters button sup{font-family:var(--f-mono);font-size:10px;letter-spacing:.02em}
 .filters button::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
 .filters button:hover{color:var(--ink)}
@@ -355,7 +361,8 @@ footer .wrap{padding-block:28px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
 .sheet .cover.big .stage.studio.wide.zoom img{width:auto!important;height:96%!important;top:50%;max-width:none}
-@media (max-width:560px){.nav ul{gap:14px;font-size:13px}.nav ul li:last-child{display:none}.logo{font-size:19px}}
+/* mobile nav: Resume now lives only here, so keep it and drop Contact (reachable by scrolling) */
+@media (max-width:560px){.nav ul{gap:14px;font-size:13px}.nav ul li:nth-child(4){display:none}.logo{font-size:19px}}
 </style>
 </head>
 <body>
@@ -363,7 +370,7 @@ footer .wrap{padding-block:28px}
 
 <header class="nav" id="nav">
   <div class="wrap">
-    <a href="#top" class="logo">Xueer Zhang <small>Product &amp; UX Design</small></a>
+    <a href="#top" class="logo">Xueer Zhang</a>
     <ul>
       <li><a class="ulink" href="#work">Work</a></li>
       <li><a class="ulink" href="#art">Art</a></li>
@@ -377,25 +384,18 @@ footer .wrap{padding-block:28px}
 <main id="top">
   <section class="hero wrap" aria-label="Introduction">
     <div class="hero-main reveal">
-      <p class="mono eyebrow">Product &amp; Interaction Designer · New York</p>
+      <p class="label">Product &amp; Interaction Designer</p>
       <h1 class="name">Xueer Zhang</h1>
-      <p class="intro">Hi, I'm Xueer. I design thoughtful digital and physical experiences, from AI-powered products to human-robot interaction.</p>
-      <div class="facts">
-        <div class="fact"><span class="mono eyebrow k">Now</span><p>M.S. Information Science<br>Cornell Tech, 2027</p></div>
-        <div class="fact"><span class="mono eyebrow k">Previously</span><p>NetEase Cloud Music<br>Ant Group (Alipay) · Camel Games</p></div>
-        <div class="fact"><span class="mono eyebrow k">Resume</span><p><a class="ulink" href="Xueer_Zhang_Resume.pdf" target="_blank" rel="noopener">View resume (PDF) ↗</a></p></div>
-      </div>
+      <p class="intro">Designing experiences across AI, digital products, and physical interaction.</p>
+      <p class="hero-meta">Cornell Tech ’27<i aria-hidden="true">·</i>Previously NetEase &amp; Ant Group</p>
+      <a class="explore" href="#work">Explore work</a>
     </div>
     <figure class="portrait-plate reveal" style="animation-delay:.08s"><img src="img/me-met.jpg" alt="Xueer at the Metropolitan Museum of Art"></figure>
-    <div class="hero-foot reveal" style="animation-delay:.18s">
-      <a class="explore" href="#work"><span class="ring"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 2v10M3 8l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Explore selected work</a>
-      <span class="mono">12 projects · Product · Research · Physical computing · Art</span>
-    </div>
   </section>
 
   <section id="work" class="wrap">
-    <div class="sec-head">
-      <h2>Selected Work<sup>(12)</sup></h2>
+    <div class="sec-head work-head">
+      <h2>Selected Work</h2>
       <div class="filters" role="group" aria-label="Filter projects">
         <button type="button" data-f="all" aria-pressed="true">All</button>
         <button type="button" data-f="ai" aria-pressed="false">Product &amp; Research</button>
@@ -879,7 +879,9 @@ panel.addEventListener("click",e=>{if(e.target===panel)closeCase()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&panel.classList.contains("open"))closeCase()});
 
 const fbtns=[...document.querySelectorAll(".filters button")];
-fbtns.forEach(b=>{const f=b.dataset.f;const n=f==="all"?P.length:P.filter(p=>p.cat===f).length;const s=document.createElement("sup");s.textContent=String(n).padStart(2,"0");b.appendChild(s)});
+// "All" is always the active filter on load (also guards against bfcache/form-state restore)
+fbtns.forEach(x=>x.setAttribute("aria-pressed",x.dataset.f==="all"));works.classList.remove("filtered");
+addEventListener("pageshow",e=>{if(e.persisted)applyFilter(fbtns.find(x=>x.dataset.f==="all"))});
 function applyFilter(b){
   fbtns.forEach(x=>x.setAttribute("aria-pressed",x===b));
   const f=b.dataset.f;
